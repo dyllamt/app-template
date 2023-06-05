@@ -1,0 +1,12 @@
+# application
+fastapi
+httpx
+starlette
+uvicorn
+
+# testing
+black
+flake8
+isort
+mypy
+pytest
