@@ -1,19 +1,22 @@
 # website
-Personal website.
+Website template.
+
+## Config
+
+```bash
+npx create-next-app frontend --ts --tailwind --eslint --src-dir --app --no-import-alias
+```
 
 # Contents
 
 ## Infrastructure
 
-
+Kubernetes deployment on GCP.
 
 ## Backend
 
-fastapi python backend. routes support:
-- user login
-- user data crud
-- llm queries against user data
+Fastapi python backend.
 
 ## Frontend
 
-TODO
+Next.js frontend.
