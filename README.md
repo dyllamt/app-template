@@ -1,9 +1,10 @@
-# website
+# website-template
 Website template.
 
-## Config
+## Setup
 
-```bash
+Create frontend app:
+```shell
 npx create-next-app frontend --ts --tailwind --eslint --src-dir --app --no-import-alias
 ```
 
