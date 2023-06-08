@@ -1,5 +1,5 @@
-# website-template
-Website template.
+# app-template
+Fullstack app template.
 
 ## Setup
 
