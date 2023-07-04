@@ -36,12 +36,21 @@ format:
 .PHONY: test
 test:
 	make install
-	make isort
-	make black
-	make flake8
-	make mypy
+	make format
 	make pytest
 
-.PHONY: uvicorn
-uvicorn:
+.PHONY: dev
+dev:
 	python src/app/main.py
+
+.PHONY: docker-build
+docker-build:
+	docker build -t app-backend .
+
+.PHONY: docker-run
+docker-run:
+	docker run -p 8000:8000 app-backend
+
+.PHONY: docker-push
+docker-push:
+	docker tag app-backend <REMOTE>; docker push <REMOTE>

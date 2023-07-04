@@ -1,0 +1,25 @@
+frontend:
+  deploymentName: frontend-deployment
+  serviceName: frontend-service
+  appName: frontend
+  image: app-frontend:latest
+  imagePullPolicy: Never
+  replicas: 1
+
+backend:
+  deploymentName: backend-deployment
+  serviceName: backend-service
+  serviceURL: "http://backend-service:8000"
+  appName: backend
+  image: app-backend:latest
+  imagePullPolicy: Never
+  replicas: 1
+
+redis:
+  deploymentName: redis-deployment
+  serviceName: redis-service
+  serviceURL: "redis://redis-service"
+  appName: redis
+  image: redis:latest
+  imagePullPolicy: Always
+  replicas: 1

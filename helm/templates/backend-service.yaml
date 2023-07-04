@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend.serviceName }}
+spec:
+  selector:
+    app: {{ .Values.backend.appName }}
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
