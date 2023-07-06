@@ -1,0 +1,66 @@
+name: "pull-request"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Unit Tests - Backend
+        env:
+          REDIS_SERVICE_URL: redis://localhost
+        run: |
+          cd backend
+          make install
+          make pytest
+
+      - name: Container Build - Backend
+        run: |
+          cd backend
+          make docker-build
+
+      - name: Container Build - Frontend
+        run: |
+          cd frontend
+          make docker-build
+
+      - name: K8s Test - Cluster Creation
+        uses: helm/kind-action@v1.4.0
+        with:
+          cluster_name: github-cluster
+
+      - name: K8s Tests - Helm Install
+        run: |
+          kind load docker-image app-backend --name github-cluster
+          kind load docker-image app-frontend --name github-cluster
+          cd helm
+          make helm-install-dev
+          sleep 30  # wait for pod and svc setup
+      
+      - name: K8s Tests - Backend Requests
+        run: |
+          nohup kubectl port-forward service/backend-service 8000:8000 &
+          sleep 10
+          curl http://localhost:8000/
+
+      - name: K8s Tests - Frontend Requests
+        run: |
+          nohup kubectl port-forward service/frontend-service 3000:80 &
+          sleep 10
+          curl http://localhost:3000/
